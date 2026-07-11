@@ -1,31 +1,31 @@
+mod util;
+
 use raylib::prelude::*;
 
+use crate::util::is_clickable_rect;
+
+const WINDOW_WIDTH: i32 = 1280;
+const WINDOW_HEIGHT: i32 = 720;
+
 fn main() {
-    let (mut rl, thread) = raylib::init().size(1280, 720).title("Aetherforge").build();
+    let (mut rl, thread) = raylib::init()
+        .size(WINDOW_WIDTH, WINDOW_HEIGHT)
+        .title("Aetherforge")
+        .build();
 
-    let rotation_speed: f32 = 180.0;
-    let mut ring_angle = 270.0;
-
+    // gameloop
     while !rl.window_should_close() {
-        ring_angle += rotation_speed * rl.get_frame_time();
+        let pos = Vector2::new(50.0, 100.0);
+        let size = Vector2::new(30.0, 30.0);
 
-        if ring_angle >= 360.0 {
-            ring_angle -= 360.0;
+        if is_clickable_rect(&rl, pos, size) {
+            println!("Clicked the shit button");
         }
 
         let mut d = rl.begin_drawing(&thread);
         d.clear_background(Color::BLACK);
 
-        d.draw_text("Hello Aetherforge", 100, 100, 40, Color::WHITE);
-        d.draw_ring(
-            Vector2::new(640.0, 360.0),
-            80.0,
-            120.0,
-            ring_angle - 270.0,
-            ring_angle,
-            80,
-            Color::WHITE,
-        );
+        d.draw_rectangle_v(pos, size, Color::RED);
 
         d.draw_fps(10, 10);
     }

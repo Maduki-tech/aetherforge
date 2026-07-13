@@ -4,6 +4,7 @@ use raylib::{prelude::*, texture::Texture2D};
 use crate::{
     button::Button,
     scene::{Scene, Transition},
+    scenes::game_menu::GameMenu,
 };
 
 const BTN_W: i32 = 200;
@@ -46,7 +47,7 @@ impl Scene for MainMenu {
     fn update(&mut self, rl: &RaylibHandle) -> Transition {
         if self.play_button.is_clicked(rl) {
             info!("Play button clicked");
-            return Transition::None; // replace with Push(GameScene) later
+            return Transition::Push(Box::new(GameMenu::new(rl)));
         }
         if self.quit_button.is_clicked(rl) {
             info!("Quit button clicked");
